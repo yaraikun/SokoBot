@@ -13,9 +13,9 @@ is a search algorithm that explores possible moves. It avoids dead-end
 situations and finds a solution. The project is built in Java with the Swing
 framework for the GUI. It is managed with Gradle.
 
-This was developed as a major course output for a course on Artificial
-Intelligence. It focused on informed search algorithms, state representation,
-and heuristic design.
+This was developed as a major course output for CSINTSY - Introduction to
+Intelligent Systems. It focused on informed search algorithms, state
+representation, and heuristic design.
 
 ---
 
