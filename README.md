@@ -40,7 +40,7 @@ Follow these instructions to get the project running on your local machine.
 
 1.  **Clone the repository:**
     ```sh
-    git clone <your-repository-url>
+    git clone https://github.com/yaraikun/SokoBot.git
     cd Sokobot
     ```
 
