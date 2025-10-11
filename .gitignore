@@ -35,8 +35,5 @@ build/
 ehthumbs.db
 Thumbs.db
 
-# Batch
-*.bat
-
 # Local config
 local.properties
