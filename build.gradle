@@ -1,0 +1,35 @@
+plugins {
+    id 'application'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+application {
+    mainClass = 'main.Driver'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['sokobot/src']
+        }
+        resources {
+            srcDirs = ['sokobot/src/graphics']
+        }
+    }
+}
+
+run {
+    workingDir = file('sokobot')
+}

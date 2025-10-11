@@ -1,0 +1,42 @@
+# Gradle
+.gradle
+build/
+!build/libs/
+
+# IDE
+.idea/
+*.iml
+*.iws
+.project
+.classpath
+.settings/
+.vscode/
+
+# Java
+*.class
+
+# Package
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Log
+*.log
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Batch
+*.bat
+
+# Local config
+local.properties
