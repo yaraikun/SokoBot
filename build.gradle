@@ -23,6 +23,7 @@ sourceSets {
     main {
         java {
             srcDirs = ['sokobot/src']
+            exclude 'graphics/**'
         }
         resources {
             srcDirs = ['sokobot/src/graphics']
