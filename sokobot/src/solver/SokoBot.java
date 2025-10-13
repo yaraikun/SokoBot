@@ -8,9 +8,10 @@ import solver.model.*;
 import solver.util.*;
 
 /**
- * Solves Sokoban puzzles using an A* search algorithm. This class manages the
- * search process. It explores game states, from an initial state to a goal
- * state. The goal is to find the shortest path of moves.
+ * Solves Sokoban puzzles using a Greedy Best-First Search (GBFS) algorithm.
+ * This class manages the search process from an initial state to a goal state.
+ * It greedily expands the most promising state based on a heuristic, aiming to
+ * find a solution quickly, not necessarily the shortest one.
  */
 public class SokoBot {
 
