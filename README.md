@@ -4,7 +4,7 @@
 Japanese puzzle game, Sokoban (倉庫番). This program thinks, plans, and finds a
 path to clean the warehouse.
 
-![SokoBot Demo](assets/sokobot-demo.mov)
+![SokoBot Demo](assets/sokobot-demo.mp4)
 
 ---
 
