@@ -1,12 +1,14 @@
 package solver;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class SokoBot {
+
     private static final char WALL = '#';
     private static final char GOAL = '.';
     private static final char PLAYER = '@';
@@ -25,7 +27,8 @@ public class SokoBot {
 
         State initialState = createInitialState(itemsData);
 
-        Queue<State> openList = new LinkedList<>();
+        Comparator<State> heuristicComparator = Comparator.comparingInt(s -> s.heuristic);
+        PriorityQueue<State> openList = new PriorityQueue<>(heuristicComparator);
         Set<State> closedList = new HashSet<>();
 
         openList.add(initialState);
@@ -47,7 +50,6 @@ public class SokoBot {
                 }
             }
         }
-
         return null;
     }
 
@@ -55,24 +57,35 @@ public class SokoBot {
         Point playerPos = currentState.player;
         Point newPlayerPos = playerPos.getNeighbor(direction);
 
-        if (mapData[newPlayerPos.r][newPlayerPos.c] == WALL) {
+        if (mapData[newPlayerPos.r][newPlayerPos.c] == WALL)
             return null;
-        }
 
         if (currentState.crates.contains(newPlayerPos)) {
             Point newCratePos = newPlayerPos.getNeighbor(direction);
-
             if (mapData[newCratePos.r][newCratePos.c] == WALL || currentState.crates.contains(newCratePos)) {
                 return null;
             }
-
             Set<Point> newCrates = new HashSet<>(currentState.crates);
             newCrates.remove(newPlayerPos);
             newCrates.add(newCratePos);
-            return new State(newPlayerPos, newCrates, currentState.path + direction.symbol);
+            return new State(newPlayerPos, newCrates, currentState.path + direction.symbol,
+                    calculateHeuristic(newCrates));
         } else {
-            return new State(newPlayerPos, currentState.crates, currentState.path + direction.symbol);
+            return new State(newPlayerPos, currentState.crates, currentState.path + direction.symbol,
+                    currentState.heuristic);
         }
+    }
+
+    private int calculateHeuristic(Set<Point> crates) {
+        int totalDistance = 0;
+        for (Point crate : crates) {
+            int minDistance = Integer.MAX_VALUE;
+            for (Point goal : goals) {
+                minDistance = Math.min(minDistance, Math.abs(crate.r - goal.r) + Math.abs(crate.c - goal.c));
+            }
+            totalDistance += minDistance;
+        }
+        return totalDistance;
     }
 
     private boolean isGoalState(State state) {
@@ -84,23 +97,21 @@ public class SokoBot {
         Set<Point> crates = new HashSet<>();
         for (int r = 0; r < height; r++) {
             for (int c = 0; c < width; c++) {
-                if (itemsData[r][c] == PLAYER) {
+                if (itemsData[r][c] == PLAYER)
                     player = new Point(r, c);
-                } else if (itemsData[r][c] == CRATE) {
+                else if (itemsData[r][c] == CRATE)
                     crates.add(new Point(r, c));
-                }
             }
         }
-        return new State(player, crates, "");
+        return new State(player, crates, "", calculateHeuristic(crates));
     }
 
     private List<Point> findGoals() {
         List<Point> goalPoints = new LinkedList<>();
         for (int r = 0; r < height; r++) {
             for (int c = 0; c < width; c++) {
-                if (mapData[r][c] == GOAL) {
+                if (mapData[r][c] == GOAL)
                     goalPoints.add(new Point(r, c));
-                }
             }
         }
         return goalPoints;
@@ -152,11 +163,13 @@ public class SokoBot {
         final Point player;
         final Set<Point> crates;
         final String path;
+        final int heuristic;
 
-        State(Point player, Set<Point> crates, String path) {
+        State(Point player, Set<Point> crates, String path, int heuristic) {
             this.player = player;
             this.crates = crates;
             this.path = path;
+            this.heuristic = heuristic;
         }
 
         @Override
