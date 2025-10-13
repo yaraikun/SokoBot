@@ -8,7 +8,6 @@ import java.util.PriorityQueue;
 import java.util.Set;
 
 public class SokoBot {
-
     private static final char WALL = '#';
     private static final char GOAL = '.';
     private static final char PLAYER = '@';
@@ -44,13 +43,34 @@ public class SokoBot {
             for (Direction direction : Direction.values()) {
                 State nextState = tryMove(currentState, direction);
 
-                if (nextState != null && !closedList.contains(nextState)) {
+                if (nextState != null && !closedList.contains(nextState) && !isDeadlock(nextState)) {
                     openList.add(nextState);
                     closedList.add(nextState);
                 }
             }
         }
         return null;
+    }
+
+    private boolean isDeadlock(State state) {
+        for (Point crate : state.crates) {
+            if (isCornerDeadlock(crate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isCornerDeadlock(Point crate) {
+        if (mapData[crate.r][crate.c] == GOAL)
+            return false;
+
+        boolean isUpWall = (mapData[crate.r - 1][crate.c] == WALL);
+        boolean isDownWall = (mapData[crate.r + 1][crate.c] == WALL);
+        boolean isLeftWall = (mapData[crate.r][crate.c - 1] == WALL);
+        boolean isRightWall = (mapData[crate.r][crate.c + 1] == WALL);
+
+        return (isUpWall || isDownWall) && (isLeftWall || isRightWall);
     }
 
     private State tryMove(State currentState, Direction direction) {
