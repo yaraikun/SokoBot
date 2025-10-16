@@ -1,4 +1,4 @@
-# The Ultimate Academic Reviewer 📚✨
+# The Ultimate CSADPRG Reviewer 📚✨
 
 ---
 
@@ -33,7 +33,7 @@
 
 ### **Writability**
 
-> 📌 **Definition:** How easily a language can be used to create programs for a chosen problem domain.
+> 📌 **Definition:** Measures how easily a programming language allows programmers to express their solutions.
 
 *   **Simplicity and Orthogonality:** A good balance is key. Too much simplicity can make complex tasks difficult, while too much orthogonality can lead to overly complex code.
 *   **Support for Abstraction:** The ability to define and use complex structures or operations while hiding the implementation details.
@@ -68,12 +68,22 @@
 
 ## **🧠 2.1 Names and Variables**
 
-*   **Name (Identifier):** A string of characters used to identify an entity in a program (e.g., variables, functions).
+*   **Name (Identifier):** A string of characters used to identify an entity in a program. The name of a variable is also referred to as an identifier.
 *   **Variable:** An abstraction of a computer memory cell or a collection of cells.
+
+### **Special Words: Keywords vs. Reserved Words**
+
+> 📌 **Definition:** Special words are used to make programs more readable by naming actions and separating syntactic parts.
+
+*   **Keyword:** A special word that has meaning only in certain contexts.
+*   **Reserved Word:** A special word that cannot be used as a user-defined name (e.g., as a variable name).
+*   **❓ Key Distinction:** The two are **not** the same. A word can be one without being the other.
+    *   **Example 1:** In Java, `goto` is a **reserved word** (you cannot name a variable `goto`), but it is **not a keyword** (it has no function in the language).
+    *   **Example 2:** In Fortran, keywords are not reserved words, meaning you can use them as names (e.g., `IF = 10`).
 
 ### **Attributes of a Variable**
 
-1.  **Name:** The identifier used to refer to the variable.
+1.  **Name:** The identifier used to refer to the variable. (Note: Not all variables have names, e.g., explicit heap-dynamic variables).
 2.  **Address (L-value):** The memory address associated with the variable.
 3.  **Type:** Determines the range of values the variable can store and the set of operations that can be performed on it.
 4.  **Value (R-value):** The contents of the memory cell(s) associated with the variable.
@@ -87,11 +97,13 @@
 ### **Binding Times**
 
 *   **Language Design Time:** When the language is being designed (e.g., binding `*` to multiplication).
-*   **Language Implementation Time:** When the compiler/interpreter is written (e.g., defining the range of an `int` in C).
-*   **Compile Time:** When the source code is compiled (e.g., binding a variable to a type in C).
+*   **Language Implementation Time:** When the compiler/interpreter is written.
+    *   **Example 1:** Defining the range of an `int` in C.
+    *   **Example 2:** Defining the possible values and internal representation of a `boolean` in Java.
+*   **Compile Time:** When the source code is compiled (e.g., binding a variable to a data type in C or Java).
 *   **Link Time:** When the compiler links to external libraries (e.g., resolving the address of the `printf` function).
-*   **Load Time:** When the program is loaded into memory by the OS (e.g., binding a C `static` variable to a memory cell).
-*   **Run Time:** When the program is executing (e.g., binding a non-static local variable to a memory cell).
+*   **Load Time:** When the program is loaded into memory by the OS (e.g., binding a C `static` variable or the `main` function to a memory cell).
+*   **Run Time:** When the program is executing (e.g., binding a non-static local variable to a memory cell or binding a variable to its value).
 
 ### **Type Binding**
 
@@ -114,11 +126,11 @@
 > 📌 **Definition:** The range of statements in which a variable is visible and can be referenced.
 
 *   **Static Scoping (Lexical Scoping):**
-    *   The scope of a variable can be determined by examining the source code.
+    *   The scope of a variable can be determined by examining the source code at **compile time**.
     *   To find the declaration for a referenced variable, the search begins in the local scope and, if not found, proceeds to the enclosing (parent) static scopes.
     *   **Variable Hiding:** A variable in an inner scope *hides* a variable with the same name in an outer scope.
 *   **Dynamic Scoping:**
-    *   Based on the *calling sequence* of subprograms, not their spatial relationship in the code.
+    *   Based on the *calling sequence* of subprograms, not their spatial relationship in the code. Binding depends on the flow of control at **run time**.
     *   To find the declaration for a referenced variable, the search begins in the local scope and, if not found, proceeds to the scope of the subprogram that *called* the current one.
     *   **✅ Advantage:** Convenient for passing parameters implicitly.
     *   **⚠️ Disadvantage:** Difficult to read and trace, less reliable, and slower.
@@ -127,9 +139,11 @@
 
 # **Module 3: Data Types**
 
+> 📌 **Definition:** A data type is a collection of data objects and a set of predefined operations on those objects. It determines the range of values that can be stored and the set of operations applicable to those values.
+
 ## **🧠 3.1 Primitive Data Types**
 
-> 📌 **Definition:** Data types that are not defined in terms of other data types.
+> 📌 **Definition:** Data types that are not defined in terms of other data types. `Arrays` are not primitive.
 
 | Type | Definition | Example |
 | :--- | :--- | :--- |
@@ -156,6 +170,8 @@
     *   Example in C#: `enum Days {Mon, Tue, Wed, Thu, Fri, Sat, Sun};`
 
 ## **🔧 3.4 Structured Data Types**
+
+> 📌 **Definition:** A data type where each data item is a collection of other data items.
 
 ### **Arrays**
 
@@ -289,3 +305,18 @@
     *   **C, C++, Perl:** Type mixes are legal with coercion freely applied.
     *   **Java, C#:** Only allowed if the coercion is a *widening* conversion (e.g., `int` to `float`). Some *narrowing* conversions are allowed (e.g., `int` to `char`) if the value is in range.
     *   **Functional PLs:** Mixed-mode assignments generally don't exist, as "assignment" is just naming a value, and types must match.
+
+---
+
+# **Module 5: PL Implementation Methods**
+
+## **💡 5.1 The Phases of Compilation**
+
+> 📌 **Definition:** Compilation is the process of translating a program from a high-level source language into an equivalent machine language program.
+
+1.  **Lexical Analyzer:** Gathers characters from the source program into lexical units (lexemes) like identifiers, keywords, operators, and punctuation. It ignores comments and whitespace.
+2.  **Syntax Analyzer (Parser):** Takes the lexical units from the lexical analyzer and uses them to construct a parse tree, which represents the syntactic structure of the program according to the language's grammar rules.
+3.  **Semantic Analyzer:** Checks the parse tree for semantic errors (errors of meaning). ⭐ **This is the phase where type checking is performed**, ensuring that operands are compatible with their operators, checking for undeclared variables, and matching parameter types.
+4.  **Intermediate Code Generator:** Creates a program in an intermediate language, which is between the source language and the machine language. This makes the compilation process more portable.
+5.  **Optimizer (Optional):** Improves the intermediate code to make the final program run faster or use less memory.
+6.  **Code Generator:** ✅ Translates the (optimized) intermediate code into the final, equivalent machine language program.
