@@ -16,14 +16,6 @@ bin/
 # Java
 *.class
 
-# Package
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
 # Log
 *.log
 
